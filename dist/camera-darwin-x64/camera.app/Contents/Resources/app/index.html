@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=0, initial-scale=1, maximum-scale=1">
+  <meta itemprop="description" content="Client-side WebRTC code samples">
+  <meta itemprop="name" content="WebRTC code samples">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta id="theme-color" name="theme-color" content="#ffffff">
+  <base target="_blank">
+  <title>拍照</title>
+  <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+  <div id="container">
+    <div>
+        <video autoplay></video>
+        <button>拍照</button>
+    </div>
+    <div>
+        <canvas id='cvs'></canvas>
+        <button onclick='saveFile()'>保存图片</button>
+    </div>
+  </div>
+
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    function saveFile() {
+     // var canvas = document.getElementById("cvs");
+     // var img = canvas.toDataURL("image/png");
+      //document.write('<img src="'+img+'"/>');
+      //console.log(img)
+
+    
+      var fileName = Date.now();
+      var canvasElement = document.getElementById('cvs');
+      var MIME_TYPE = "image/png";
+      var imgURL = canvasElement.toDataURL(MIME_TYPE);
+
+      var dlLink = document.createElement('a');
+      dlLink.download = fileName;
+      dlLink.href = imgURL;
+      dlLink.dataset.downloadurl = [MIME_TYPE, dlLink.download, dlLink.href].join(':');
+
+      document.body.appendChild(dlLink);
+      dlLink.click();
+      document.body.removeChild(dlLink);
+    }
+
+  </script>
+</body>
+</html>

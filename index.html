@@ -3,7 +3,6 @@
 <head>
 
   <meta charset="utf-8">
-  <meta name="description" content="WebRTC code samples">
   <meta name="viewport" content="width=device-width, user-scalable=0, initial-scale=1, maximum-scale=1">
   <meta itemprop="description" content="Client-side WebRTC code samples">
   <meta itemprop="name" content="WebRTC code samples">
@@ -30,45 +29,27 @@
   <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
   <script src="js/main.js"></script>
   <script>
-    //图片导出为 png 格式
-    var type = 'png';
-    var imgData = canvas.toDataURL(type);
+    function saveFile() {
+     // var canvas = document.getElementById("cvs");
+     // var img = canvas.toDataURL("image/png");
+      //document.write('<img src="'+img+'"/>');
+      //console.log(img)
 
-    /**
-    * 获取mimeType
-    * @param  {String} type the old mime-type
-    * @return the new mime-type
-    */
-    var _fixType = function(type) {
-      type = type.toLowerCase().replace(/jpg/i, 'jpeg');
-      var r = type.match(/png|jpeg|bmp|gif/)[0];
-      return 'image/' + r;
-    }; 
+    
+      var fileName = Date.now();
+      var canvasElement = document.getElementById('cvs');
+      var MIME_TYPE = "image/png";
+      var imgURL = canvasElement.toDataURL(MIME_TYPE);
 
-    // 加工image data，替换mime type
-    imgData = imgData.replace(_fixType(type),'image/octet-stream');
+      var dlLink = document.createElement('a');
+      dlLink.download = fileName;
+      dlLink.href = imgURL;
+      dlLink.dataset.downloadurl = [MIME_TYPE, dlLink.download, dlLink.href].join(':');
 
-    /**
-    * 在本地进行文件保存
-    * @param  {String} data     要保存到本地的图片数据
-    * @param  {String} filename 文件名
-    */
-    var saveFile = function(){
-        var data = document.getElementById('cvs');
-        var filename = (new Date()).getTime() + '.png';
-
-        console.log(data,filename)
-
-        var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
-        save_link.href = data;
-        save_link.download = filename;
-
-        var event = document.createEvent('MouseEvents');
-        event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-        save_link.dispatchEvent(event);
-    };
-
-   
+      document.body.appendChild(dlLink);
+      dlLink.click();
+      document.body.removeChild(dlLink);
+    }
 
   </script>
 </body>
